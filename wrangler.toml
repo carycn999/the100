@@ -1,0 +1,3 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "the100"
+pages_build_output_dir = "."

@@ -1,0 +1,14 @@
+# Cache static assets aggressively (they have hashed names or rarely change)
+/data.js
+  Cache-Control: public, max-age=3600
+
+/content.js
+  Cache-Control: public, max-age=3600
+
+/index.html
+  Cache-Control: public, max-age=600
+
+# Security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
