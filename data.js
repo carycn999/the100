@@ -2025,7 +2025,7 @@ const PERSONS = [
   }
 ];
 
-// Countries keyed by ISO code — read from _region/
+// Countries keyed by ISO code — _region/ notes merged with country-ref.js (complete)
 const COUNTRIES = {
   "AT": {
     "zh": "奥地利",
@@ -2269,6 +2269,1887 @@ const COUNTRIES = {
     "subregion": "南美",
     "continent": "拉丁美洲",
     "flag": "https://flagcdn.com/w320/ve.png"
+  },
+  "JP": {
+    "zh": "日本",
+    "en": "Japan",
+    "lat": 36.2,
+    "lon": 138.3,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/jp.png"
+  },
+  "KP": {
+    "zh": "朝鲜",
+    "en": "North Korea",
+    "lat": 40.3,
+    "lon": 127.5,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kp.png"
+  },
+  "KR": {
+    "zh": "韩国",
+    "en": "South Korea",
+    "lat": 36.5,
+    "lon": 127.8,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kr.png"
+  },
+  "TW": {
+    "zh": "台湾",
+    "en": "Taiwan",
+    "lat": 23.7,
+    "lon": 121,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/tw.png"
+  },
+  "HK": {
+    "zh": "香港",
+    "en": "Hong Kong",
+    "lat": 22.3,
+    "lon": 114.2,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/hk.png"
+  },
+  "MO": {
+    "zh": "澳门",
+    "en": "Macau",
+    "lat": 22.2,
+    "lon": 113.5,
+    "subregion": "东亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/mo.png"
+  },
+  "MM": {
+    "zh": "缅甸",
+    "en": "Myanmar",
+    "lat": 21.9,
+    "lon": 96,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/mm.png"
+  },
+  "KH": {
+    "zh": "柬埔寨",
+    "en": "Cambodia",
+    "lat": 12.6,
+    "lon": 104.9,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kh.png"
+  },
+  "ID": {
+    "zh": "印度尼西亚",
+    "en": "Indonesia",
+    "lat": -2.5,
+    "lon": 118,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/id.png"
+  },
+  "LA": {
+    "zh": "老挝",
+    "en": "Laos",
+    "lat": 19.9,
+    "lon": 102.5,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/la.png"
+  },
+  "MY": {
+    "zh": "马来西亚",
+    "en": "Malaysia",
+    "lat": 4.2,
+    "lon": 102,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/my.png"
+  },
+  "PH": {
+    "zh": "菲律宾",
+    "en": "Philippines",
+    "lat": 12.9,
+    "lon": 121.8,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/ph.png"
+  },
+  "SG": {
+    "zh": "新加坡",
+    "en": "Singapore",
+    "lat": 1.35,
+    "lon": 103.8,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/sg.png"
+  },
+  "TH": {
+    "zh": "泰国",
+    "en": "Thailand",
+    "lat": 15,
+    "lon": 101,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/th.png"
+  },
+  "VN": {
+    "zh": "越南",
+    "en": "Vietnam",
+    "lat": 16,
+    "lon": 107.8,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/vn.png"
+  },
+  "BN": {
+    "zh": "文莱",
+    "en": "Brunei",
+    "lat": 4.5,
+    "lon": 114.7,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/bn.png"
+  },
+  "TL": {
+    "zh": "东帝汶",
+    "en": "Timor-Leste",
+    "lat": -8.8,
+    "lon": 125.7,
+    "subregion": "东南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/tl.png"
+  },
+  "AF": {
+    "zh": "阿富汗",
+    "en": "Afghanistan",
+    "lat": 33.9,
+    "lon": 67.7,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/af.png"
+  },
+  "BD": {
+    "zh": "孟加拉国",
+    "en": "Bangladesh",
+    "lat": 23.7,
+    "lon": 90.4,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/bd.png"
+  },
+  "BT": {
+    "zh": "不丹",
+    "en": "Bhutan",
+    "lat": 27.5,
+    "lon": 90.4,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/bt.png"
+  },
+  "LK": {
+    "zh": "斯里兰卡",
+    "en": "Sri Lanka",
+    "lat": 7.9,
+    "lon": 80.7,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/lk.png"
+  },
+  "MV": {
+    "zh": "马尔代夫",
+    "en": "Maldives",
+    "lat": 3.2,
+    "lon": 73.2,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/mv.png"
+  },
+  "PK": {
+    "zh": "巴基斯坦",
+    "en": "Pakistan",
+    "lat": 30.4,
+    "lon": 69.3,
+    "subregion": "南亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/pk.png"
+  },
+  "KZ": {
+    "zh": "哈萨克斯坦",
+    "en": "Kazakhstan",
+    "lat": 48,
+    "lon": 67,
+    "subregion": "中亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kz.png"
+  },
+  "KG": {
+    "zh": "吉尔吉斯斯坦",
+    "en": "Kyrgyzstan",
+    "lat": 41.2,
+    "lon": 74.8,
+    "subregion": "中亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kg.png"
+  },
+  "TJ": {
+    "zh": "塔吉克斯坦",
+    "en": "Tajikistan",
+    "lat": 38.9,
+    "lon": 71.3,
+    "subregion": "中亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/tj.png"
+  },
+  "TM": {
+    "zh": "土库曼斯坦",
+    "en": "Turkmenistan",
+    "lat": 39.1,
+    "lon": 59.4,
+    "subregion": "中亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/tm.png"
+  },
+  "UZ": {
+    "zh": "乌兹别克斯坦",
+    "en": "Uzbekistan",
+    "lat": 41.4,
+    "lon": 64.6,
+    "subregion": "中亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/uz.png"
+  },
+  "AM": {
+    "zh": "亚美尼亚",
+    "en": "Armenia",
+    "lat": 40.1,
+    "lon": 45,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/am.png"
+  },
+  "AZ": {
+    "zh": "阿塞拜疆",
+    "en": "Azerbaijan",
+    "lat": 40.4,
+    "lon": 47.6,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/az.png"
+  },
+  "BH": {
+    "zh": "巴林",
+    "en": "Bahrain",
+    "lat": 26,
+    "lon": 50.55,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/bh.png"
+  },
+  "CY": {
+    "zh": "塞浦路斯",
+    "en": "Cyprus",
+    "lat": 35.1,
+    "lon": 33.4,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/cy.png"
+  },
+  "GE": {
+    "zh": "格鲁吉亚",
+    "en": "Georgia",
+    "lat": 42.3,
+    "lon": 43.4,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/ge.png"
+  },
+  "IQ": {
+    "zh": "伊拉克",
+    "en": "Iraq",
+    "lat": 33.2,
+    "lon": 43.7,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/iq.png"
+  },
+  "IL": {
+    "zh": "以色列",
+    "en": "Israel",
+    "lat": 31.5,
+    "lon": 34.9,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/il.png"
+  },
+  "JO": {
+    "zh": "约旦",
+    "en": "Jordan",
+    "lat": 31.2,
+    "lon": 36.8,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/jo.png"
+  },
+  "KW": {
+    "zh": "科威特",
+    "en": "Kuwait",
+    "lat": 29.3,
+    "lon": 47.5,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/kw.png"
+  },
+  "LB": {
+    "zh": "黎巴嫩",
+    "en": "Lebanon",
+    "lat": 33.9,
+    "lon": 35.9,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/lb.png"
+  },
+  "OM": {
+    "zh": "阿曼",
+    "en": "Oman",
+    "lat": 21.5,
+    "lon": 55.9,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/om.png"
+  },
+  "QA": {
+    "zh": "卡塔尔",
+    "en": "Qatar",
+    "lat": 25.3,
+    "lon": 51.2,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/qa.png"
+  },
+  "SY": {
+    "zh": "叙利亚",
+    "en": "Syria",
+    "lat": 35,
+    "lon": 38.5,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/sy.png"
+  },
+  "AE": {
+    "zh": "阿拉伯联合酋长国",
+    "en": "United Arab Emirates",
+    "lat": 23.9,
+    "lon": 54.3,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/ae.png"
+  },
+  "YE": {
+    "zh": "也门",
+    "en": "Yemen",
+    "lat": 15.5,
+    "lon": 48,
+    "subregion": "西亚",
+    "continent": "亚洲",
+    "flag": "https://flagcdn.com/w320/ye.png"
+  },
+  "DK": {
+    "zh": "丹麦",
+    "en": "Denmark",
+    "lat": 56,
+    "lon": 10,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/dk.png"
+  },
+  "EE": {
+    "zh": "爱沙尼亚",
+    "en": "Estonia",
+    "lat": 58.7,
+    "lon": 25.5,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ee.png"
+  },
+  "FI": {
+    "zh": "芬兰",
+    "en": "Finland",
+    "lat": 64.5,
+    "lon": 26,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/fi.png"
+  },
+  "IS": {
+    "zh": "冰岛",
+    "en": "Iceland",
+    "lat": 64.9,
+    "lon": -18.6,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/is.png"
+  },
+  "IE": {
+    "zh": "爱尔兰",
+    "en": "Ireland",
+    "lat": 53.2,
+    "lon": -8,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ie.png"
+  },
+  "LV": {
+    "zh": "拉脱维亚",
+    "en": "Latvia",
+    "lat": 56.9,
+    "lon": 24.9,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/lv.png"
+  },
+  "LT": {
+    "zh": "立陶宛",
+    "en": "Lithuania",
+    "lat": 55.2,
+    "lon": 23.9,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/lt.png"
+  },
+  "NO": {
+    "zh": "挪威",
+    "en": "Norway",
+    "lat": 64.5,
+    "lon": 12,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/no.png"
+  },
+  "SE": {
+    "zh": "瑞典",
+    "en": "Sweden",
+    "lat": 62,
+    "lon": 15,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/se.png"
+  },
+  "FO": {
+    "zh": "法罗群岛",
+    "en": "Faroe Islands",
+    "lat": 62,
+    "lon": -6.9,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/fo.png"
+  },
+  "AX": {
+    "zh": "奥兰群岛",
+    "en": "Åland Islands",
+    "lat": 60.2,
+    "lon": 20,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ax.png"
+  },
+  "GG": {
+    "zh": "根西",
+    "en": "Guernsey",
+    "lat": 49.45,
+    "lon": -2.58,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/gg.png"
+  },
+  "JE": {
+    "zh": "泽西",
+    "en": "Jersey",
+    "lat": 49.2,
+    "lon": -2.13,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/je.png"
+  },
+  "IM": {
+    "zh": "马恩岛",
+    "en": "Isle of Man",
+    "lat": 54.2,
+    "lon": -4.5,
+    "subregion": "北欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/im.png"
+  },
+  "BE": {
+    "zh": "比利时",
+    "en": "Belgium",
+    "lat": 50.6,
+    "lon": 4.6,
+    "subregion": "西欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/be.png"
+  },
+  "LI": {
+    "zh": "列支敦士登",
+    "en": "Liechtenstein",
+    "lat": 47.2,
+    "lon": 9.55,
+    "subregion": "西欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/li.png"
+  },
+  "LU": {
+    "zh": "卢森堡",
+    "en": "Luxembourg",
+    "lat": 49.8,
+    "lon": 6.1,
+    "subregion": "西欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/lu.png"
+  },
+  "MC": {
+    "zh": "摩纳哥",
+    "en": "Monaco",
+    "lat": 43.74,
+    "lon": 7.42,
+    "subregion": "西欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/mc.png"
+  },
+  "BY": {
+    "zh": "白俄罗斯",
+    "en": "Belarus",
+    "lat": 53.7,
+    "lon": 28,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/by.png"
+  },
+  "BG": {
+    "zh": "保加利亚",
+    "en": "Bulgaria",
+    "lat": 42.7,
+    "lon": 25.2,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/bg.png"
+  },
+  "HU": {
+    "zh": "匈牙利",
+    "en": "Hungary",
+    "lat": 47.2,
+    "lon": 19.4,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/hu.png"
+  },
+  "MD": {
+    "zh": "摩尔多瓦",
+    "en": "Moldova",
+    "lat": 47.2,
+    "lon": 28.5,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/md.png"
+  },
+  "RO": {
+    "zh": "罗马尼亚",
+    "en": "Romania",
+    "lat": 45.9,
+    "lon": 25,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ro.png"
+  },
+  "SK": {
+    "zh": "斯洛伐克",
+    "en": "Slovakia",
+    "lat": 48.7,
+    "lon": 19.7,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/sk.png"
+  },
+  "UA": {
+    "zh": "乌克兰",
+    "en": "Ukraine",
+    "lat": 49,
+    "lon": 31.4,
+    "subregion": "东欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ua.png"
+  },
+  "AL": {
+    "zh": "阿尔巴尼亚",
+    "en": "Albania",
+    "lat": 41.2,
+    "lon": 20,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/al.png"
+  },
+  "AD": {
+    "zh": "安道尔",
+    "en": "Andorra",
+    "lat": 42.5,
+    "lon": 1.5,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ad.png"
+  },
+  "BA": {
+    "zh": "波斯尼亚和黑塞哥维那",
+    "en": "Bosnia and Herzegovina",
+    "lat": 44,
+    "lon": 18,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/ba.png"
+  },
+  "HR": {
+    "zh": "克罗地亚",
+    "en": "Croatia",
+    "lat": 45.2,
+    "lon": 15.5,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/hr.png"
+  },
+  "GI": {
+    "zh": "直布罗陀",
+    "en": "Gibraltar",
+    "lat": 36.14,
+    "lon": -5.35,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/gi.png"
+  },
+  "MT": {
+    "zh": "马耳他",
+    "en": "Malta",
+    "lat": 35.9,
+    "lon": 14.4,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/mt.png"
+  },
+  "ME": {
+    "zh": "黑山",
+    "en": "Montenegro",
+    "lat": 42.7,
+    "lon": 19.4,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/me.png"
+  },
+  "MK": {
+    "zh": "北马其顿",
+    "en": "North Macedonia",
+    "lat": 41.6,
+    "lon": 21.7,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/mk.png"
+  },
+  "SI": {
+    "zh": "斯洛文尼亚",
+    "en": "Slovenia",
+    "lat": 46.1,
+    "lon": 14.8,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/si.png"
+  },
+  "VA": {
+    "zh": "梵蒂冈",
+    "en": "Vatican City",
+    "lat": 41.9,
+    "lon": 12.45,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/va.png"
+  },
+  "SM": {
+    "zh": "圣马力诺",
+    "en": "San Marino",
+    "lat": 43.94,
+    "lon": 12.46,
+    "subregion": "南欧",
+    "continent": "欧洲",
+    "flag": "https://flagcdn.com/w320/sm.png"
+  },
+  "LY": {
+    "zh": "利比亚",
+    "en": "Libya",
+    "lat": 27,
+    "lon": 18,
+    "subregion": "北非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ly.png"
+  },
+  "MA": {
+    "zh": "摩洛哥",
+    "en": "Morocco",
+    "lat": 31.8,
+    "lon": -7,
+    "subregion": "北非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ma.png"
+  },
+  "SD": {
+    "zh": "苏丹",
+    "en": "Sudan",
+    "lat": 15.5,
+    "lon": 30.2,
+    "subregion": "北非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sd.png"
+  },
+  "TN": {
+    "zh": "突尼斯",
+    "en": "Tunisia",
+    "lat": 34,
+    "lon": 9.5,
+    "subregion": "北非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/tn.png"
+  },
+  "EH": {
+    "zh": "西撒哈拉",
+    "en": "Western Sahara",
+    "lat": 24.5,
+    "lon": -13,
+    "subregion": "北非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/eh.png"
+  },
+  "BJ": {
+    "zh": "贝宁",
+    "en": "Benin",
+    "lat": 9.6,
+    "lon": 2.3,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/bj.png"
+  },
+  "BF": {
+    "zh": "布基纳法索",
+    "en": "Burkina Faso",
+    "lat": 12.2,
+    "lon": -1.6,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/bf.png"
+  },
+  "CV": {
+    "zh": "佛得角",
+    "en": "Cape Verde",
+    "lat": 16,
+    "lon": -24,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/cv.png"
+  },
+  "CI": {
+    "zh": "科特迪瓦",
+    "en": "Côte d'Ivoire",
+    "lat": 7.6,
+    "lon": -5.5,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ci.png"
+  },
+  "GM": {
+    "zh": "冈比亚",
+    "en": "Gambia",
+    "lat": 13.4,
+    "lon": -15.4,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/gm.png"
+  },
+  "GH": {
+    "zh": "加纳",
+    "en": "Ghana",
+    "lat": 7.9,
+    "lon": -1,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/gh.png"
+  },
+  "GN": {
+    "zh": "几内亚",
+    "en": "Guinea",
+    "lat": 10.4,
+    "lon": -10.9,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/gn.png"
+  },
+  "GW": {
+    "zh": "几内亚比绍",
+    "en": "Guinea-Bissau",
+    "lat": 12,
+    "lon": -15,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/gw.png"
+  },
+  "LR": {
+    "zh": "利比里亚",
+    "en": "Liberia",
+    "lat": 6.4,
+    "lon": -9.4,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/lr.png"
+  },
+  "ML": {
+    "zh": "马里",
+    "en": "Mali",
+    "lat": 17.6,
+    "lon": -4,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ml.png"
+  },
+  "MR": {
+    "zh": "毛里塔尼亚",
+    "en": "Mauritania",
+    "lat": 20.3,
+    "lon": -10.3,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/mr.png"
+  },
+  "NE": {
+    "zh": "尼日尔",
+    "en": "Niger",
+    "lat": 17.6,
+    "lon": 8.1,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ne.png"
+  },
+  "NG": {
+    "zh": "尼日利亚",
+    "en": "Nigeria",
+    "lat": 9.1,
+    "lon": 8.7,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ng.png"
+  },
+  "SN": {
+    "zh": "塞内加尔",
+    "en": "Senegal",
+    "lat": 14.5,
+    "lon": -14.5,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sn.png"
+  },
+  "SL": {
+    "zh": "塞拉利昂",
+    "en": "Sierra Leone",
+    "lat": 8.5,
+    "lon": -11.8,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sl.png"
+  },
+  "TG": {
+    "zh": "多哥",
+    "en": "Togo",
+    "lat": 8.6,
+    "lon": 0.8,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/tg.png"
+  },
+  "SH": {
+    "zh": "圣赫勒拿",
+    "en": "Saint Helena",
+    "lat": -15.95,
+    "lon": -5.7,
+    "subregion": "西非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sh.png"
+  },
+  "AO": {
+    "zh": "安哥拉",
+    "en": "Angola",
+    "lat": -11.2,
+    "lon": 17.9,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ao.png"
+  },
+  "CM": {
+    "zh": "喀麦隆",
+    "en": "Cameroon",
+    "lat": 5.7,
+    "lon": 12.7,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/cm.png"
+  },
+  "CF": {
+    "zh": "中非共和国",
+    "en": "Central African Republic",
+    "lat": 6.6,
+    "lon": 20.9,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/cf.png"
+  },
+  "TD": {
+    "zh": "乍得",
+    "en": "Chad",
+    "lat": 15.4,
+    "lon": 18.7,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/td.png"
+  },
+  "CG": {
+    "zh": "刚果（布）",
+    "en": "Republic of the Congo",
+    "lat": -0.8,
+    "lon": 15.2,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/cg.png"
+  },
+  "CD": {
+    "zh": "刚果（金）",
+    "en": "DR Congo",
+    "lat": -2.9,
+    "lon": 23.6,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/cd.png"
+  },
+  "GQ": {
+    "zh": "赤道几内亚",
+    "en": "Equatorial Guinea",
+    "lat": 1.6,
+    "lon": 10.3,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/gq.png"
+  },
+  "GA": {
+    "zh": "加蓬",
+    "en": "Gabon",
+    "lat": -0.6,
+    "lon": 11.8,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ga.png"
+  },
+  "ST": {
+    "zh": "圣多美和普林西比",
+    "en": "São Tomé and Príncipe",
+    "lat": 0.2,
+    "lon": 6.6,
+    "subregion": "中非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/st.png"
+  },
+  "BI": {
+    "zh": "布隆迪",
+    "en": "Burundi",
+    "lat": -3.4,
+    "lon": 29.9,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/bi.png"
+  },
+  "KM": {
+    "zh": "科摩罗",
+    "en": "Comoros",
+    "lat": -11.6,
+    "lon": 43.3,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/km.png"
+  },
+  "DJ": {
+    "zh": "吉布提",
+    "en": "Djibouti",
+    "lat": 11.8,
+    "lon": 42.6,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/dj.png"
+  },
+  "ER": {
+    "zh": "厄立特里亚",
+    "en": "Eritrea",
+    "lat": 15.2,
+    "lon": 39.8,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/er.png"
+  },
+  "ET": {
+    "zh": "埃塞俄比亚",
+    "en": "Ethiopia",
+    "lat": 9.1,
+    "lon": 40.5,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/et.png"
+  },
+  "KE": {
+    "zh": "肯尼亚",
+    "en": "Kenya",
+    "lat": 0.2,
+    "lon": 37.9,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ke.png"
+  },
+  "MG": {
+    "zh": "马达加斯加",
+    "en": "Madagascar",
+    "lat": -19,
+    "lon": 46.7,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/mg.png"
+  },
+  "MW": {
+    "zh": "马拉维",
+    "en": "Malawi",
+    "lat": -13.3,
+    "lon": 34.3,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/mw.png"
+  },
+  "MU": {
+    "zh": "毛里求斯",
+    "en": "Mauritius",
+    "lat": -20.3,
+    "lon": 57.6,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/mu.png"
+  },
+  "YT": {
+    "zh": "马约特",
+    "en": "Mayotte",
+    "lat": -12.8,
+    "lon": 45.2,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/yt.png"
+  },
+  "MZ": {
+    "zh": "莫桑比克",
+    "en": "Mozambique",
+    "lat": -18.3,
+    "lon": 35.5,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/mz.png"
+  },
+  "RE": {
+    "zh": "留尼汪",
+    "en": "Réunion",
+    "lat": -21.1,
+    "lon": 55.5,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/re.png"
+  },
+  "RW": {
+    "zh": "卢旺达",
+    "en": "Rwanda",
+    "lat": -1.9,
+    "lon": 29.9,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/rw.png"
+  },
+  "SC": {
+    "zh": "塞舌尔",
+    "en": "Seychelles",
+    "lat": -4.7,
+    "lon": 55.5,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sc.png"
+  },
+  "SO": {
+    "zh": "索马里",
+    "en": "Somalia",
+    "lat": 5.2,
+    "lon": 46.2,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/so.png"
+  },
+  "SS": {
+    "zh": "南苏丹",
+    "en": "South Sudan",
+    "lat": 7.3,
+    "lon": 30.3,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ss.png"
+  },
+  "TZ": {
+    "zh": "坦桑尼亚",
+    "en": "Tanzania",
+    "lat": -6.4,
+    "lon": 35,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/tz.png"
+  },
+  "UG": {
+    "zh": "乌干达",
+    "en": "Uganda",
+    "lat": 1.4,
+    "lon": 32.4,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ug.png"
+  },
+  "ZM": {
+    "zh": "赞比亚",
+    "en": "Zambia",
+    "lat": -13.1,
+    "lon": 27.8,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/zm.png"
+  },
+  "ZW": {
+    "zh": "津巴布韦",
+    "en": "Zimbabwe",
+    "lat": -19,
+    "lon": 29.8,
+    "subregion": "东非",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/zw.png"
+  },
+  "BW": {
+    "zh": "博茨瓦纳",
+    "en": "Botswana",
+    "lat": -22.3,
+    "lon": 24.7,
+    "subregion": "南部非洲",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/bw.png"
+  },
+  "LS": {
+    "zh": "莱索托",
+    "en": "Lesotho",
+    "lat": -29.6,
+    "lon": 28.2,
+    "subregion": "南部非洲",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/ls.png"
+  },
+  "NA": {
+    "zh": "纳米比亚",
+    "en": "Namibia",
+    "lat": -22,
+    "lon": 17.2,
+    "subregion": "南部非洲",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/na.png"
+  },
+  "ZA": {
+    "zh": "南非",
+    "en": "South Africa",
+    "lat": -29,
+    "lon": 24,
+    "subregion": "南部非洲",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/za.png"
+  },
+  "SZ": {
+    "zh": "斯威士兰",
+    "en": "Eswatini",
+    "lat": -26.5,
+    "lon": 31.5,
+    "subregion": "南部非洲",
+    "continent": "非洲",
+    "flag": "https://flagcdn.com/w320/sz.png"
+  },
+  "BZ": {
+    "zh": "伯利兹",
+    "en": "Belize",
+    "lat": 17.2,
+    "lon": -88.5,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/bz.png"
+  },
+  "CR": {
+    "zh": "哥斯达黎加",
+    "en": "Costa Rica",
+    "lat": 9.9,
+    "lon": -84.1,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/cr.png"
+  },
+  "SV": {
+    "zh": "萨尔瓦多",
+    "en": "El Salvador",
+    "lat": 13.8,
+    "lon": -88.9,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/sv.png"
+  },
+  "GT": {
+    "zh": "危地马拉",
+    "en": "Guatemala",
+    "lat": 15.7,
+    "lon": -90.3,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gt.png"
+  },
+  "HN": {
+    "zh": "洪都拉斯",
+    "en": "Honduras",
+    "lat": 14.8,
+    "lon": -86.6,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/hn.png"
+  },
+  "MX": {
+    "zh": "墨西哥",
+    "en": "Mexico",
+    "lat": 23.6,
+    "lon": -102.5,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/mx.png"
+  },
+  "NI": {
+    "zh": "尼加拉瓜",
+    "en": "Nicaragua",
+    "lat": 12.9,
+    "lon": -85.2,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ni.png"
+  },
+  "PA": {
+    "zh": "巴拿马",
+    "en": "Panama",
+    "lat": 8.5,
+    "lon": -80.1,
+    "subregion": "中美洲",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/pa.png"
+  },
+  "AG": {
+    "zh": "安提瓜和巴布达",
+    "en": "Antigua and Barbuda",
+    "lat": 17.1,
+    "lon": -61.8,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ag.png"
+  },
+  "AI": {
+    "zh": "安圭拉",
+    "en": "Anguilla",
+    "lat": 18.2,
+    "lon": -63.1,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ai.png"
+  },
+  "AW": {
+    "zh": "阿鲁巴",
+    "en": "Aruba",
+    "lat": 12.5,
+    "lon": -69.97,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/aw.png"
+  },
+  "BS": {
+    "zh": "巴哈马",
+    "en": "Bahamas",
+    "lat": 25,
+    "lon": -77.4,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/bs.png"
+  },
+  "BB": {
+    "zh": "巴巴多斯",
+    "en": "Barbados",
+    "lat": 13.2,
+    "lon": -59.5,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/bb.png"
+  },
+  "BQ": {
+    "zh": "博奈尔",
+    "en": "Bonaire",
+    "lat": 12.2,
+    "lon": -68.3,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/bq.png"
+  },
+  "CU": {
+    "zh": "古巴",
+    "en": "Cuba",
+    "lat": 21.5,
+    "lon": -79.5,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/cu.png"
+  },
+  "CW": {
+    "zh": "库拉索",
+    "en": "Curaçao",
+    "lat": 12.2,
+    "lon": -69,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/cw.png"
+  },
+  "DM": {
+    "zh": "多米尼克",
+    "en": "Dominica",
+    "lat": 15.4,
+    "lon": -61.4,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/dm.png"
+  },
+  "DO": {
+    "zh": "多米尼加",
+    "en": "Dominican Republic",
+    "lat": 18.7,
+    "lon": -70.2,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/do.png"
+  },
+  "GD": {
+    "zh": "格林纳达",
+    "en": "Grenada",
+    "lat": 12.1,
+    "lon": -61.7,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gd.png"
+  },
+  "GP": {
+    "zh": "瓜德罗普",
+    "en": "Guadeloupe",
+    "lat": 16.2,
+    "lon": -61.6,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gp.png"
+  },
+  "HT": {
+    "zh": "海地",
+    "en": "Haiti",
+    "lat": 19,
+    "lon": -72.3,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ht.png"
+  },
+  "JM": {
+    "zh": "牙买加",
+    "en": "Jamaica",
+    "lat": 18.1,
+    "lon": -77.3,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/jm.png"
+  },
+  "KN": {
+    "zh": "圣基茨和尼维斯",
+    "en": "Saint Kitts and Nevis",
+    "lat": 17.3,
+    "lon": -62.7,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/kn.png"
+  },
+  "LC": {
+    "zh": "圣卢西亚",
+    "en": "Saint Lucia",
+    "lat": 13.9,
+    "lon": -61,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/lc.png"
+  },
+  "MF": {
+    "zh": "法属圣马丁",
+    "en": "Saint Martin",
+    "lat": 18.08,
+    "lon": -63.05,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/mf.png"
+  },
+  "MQ": {
+    "zh": "马提尼克",
+    "en": "Martinique",
+    "lat": 14.6,
+    "lon": -61,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/mq.png"
+  },
+  "MS": {
+    "zh": "蒙特塞拉特",
+    "en": "Montserrat",
+    "lat": 16.7,
+    "lon": -62.2,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ms.png"
+  },
+  "PR": {
+    "zh": "波多黎各",
+    "en": "Puerto Rico",
+    "lat": 18.2,
+    "lon": -66.5,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/pr.png"
+  },
+  "SX": {
+    "zh": "荷属圣马丁",
+    "en": "Sint Maarten",
+    "lat": 18.04,
+    "lon": -63.06,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/sx.png"
+  },
+  "TT": {
+    "zh": "特立尼达和多巴哥",
+    "en": "Trinidad and Tobago",
+    "lat": 10.7,
+    "lon": -61.2,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/tt.png"
+  },
+  "VC": {
+    "zh": "圣文森特和格林纳丁斯",
+    "en": "Saint Vincent and the Grenadines",
+    "lat": 13,
+    "lon": -61.2,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/vc.png"
+  },
+  "VI": {
+    "zh": "美属维尔京群岛",
+    "en": "U.S. Virgin Islands",
+    "lat": 18.3,
+    "lon": -64.9,
+    "subregion": "加勒比",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/vi.png"
+  },
+  "AR": {
+    "zh": "阿根廷",
+    "en": "Argentina",
+    "lat": -38.4,
+    "lon": -63.6,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ar.png"
+  },
+  "BO": {
+    "zh": "玻利维亚",
+    "en": "Bolivia",
+    "lat": -16.3,
+    "lon": -63.6,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/bo.png"
+  },
+  "BR": {
+    "zh": "巴西",
+    "en": "Brazil",
+    "lat": -10.8,
+    "lon": -52.9,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/br.png"
+  },
+  "CL": {
+    "zh": "智利",
+    "en": "Chile",
+    "lat": -35.7,
+    "lon": -71.5,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/cl.png"
+  },
+  "CO": {
+    "zh": "哥伦比亚",
+    "en": "Colombia",
+    "lat": 4.1,
+    "lon": -72.9,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/co.png"
+  },
+  "EC": {
+    "zh": "厄瓜多尔",
+    "en": "Ecuador",
+    "lat": -1.4,
+    "lon": -78.2,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/ec.png"
+  },
+  "FK": {
+    "zh": "福克兰群岛",
+    "en": "Falkland Islands",
+    "lat": -51.8,
+    "lon": -59.5,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/fk.png"
+  },
+  "GF": {
+    "zh": "法属圭亚那",
+    "en": "French Guiana",
+    "lat": 4,
+    "lon": -53,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gf.png"
+  },
+  "GY": {
+    "zh": "圭亚那",
+    "en": "Guyana",
+    "lat": 4.9,
+    "lon": -58.9,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gy.png"
+  },
+  "PY": {
+    "zh": "巴拉圭",
+    "en": "Paraguay",
+    "lat": -23.4,
+    "lon": -58.4,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/py.png"
+  },
+  "PE": {
+    "zh": "秘鲁",
+    "en": "Peru",
+    "lat": -9.2,
+    "lon": -75,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/pe.png"
+  },
+  "SR": {
+    "zh": "苏里南",
+    "en": "Suriname",
+    "lat": 4,
+    "lon": -56,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/sr.png"
+  },
+  "UY": {
+    "zh": "乌拉圭",
+    "en": "Uruguay",
+    "lat": -32.8,
+    "lon": -56,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/uy.png"
+  },
+  "GS": {
+    "zh": "南乔治亚和南桑威奇群岛",
+    "en": "South Georgia and the South Sandwich Islands",
+    "lat": -54.5,
+    "lon": -37,
+    "subregion": "南美",
+    "continent": "拉丁美洲",
+    "flag": "https://flagcdn.com/w320/gs.png"
+  },
+  "AU": {
+    "zh": "澳大利亚",
+    "en": "Australia",
+    "lat": -25.7,
+    "lon": 134.5,
+    "subregion": "澳新",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/au.png"
+  },
+  "NF": {
+    "zh": "诺福克岛",
+    "en": "Norfolk Island",
+    "lat": -29.04,
+    "lon": 167.95,
+    "subregion": "澳新",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/nf.png"
+  },
+  "CX": {
+    "zh": "圣诞岛",
+    "en": "Christmas Island",
+    "lat": -10.49,
+    "lon": 105.6,
+    "subregion": "澳新",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/cx.png"
+  },
+  "CC": {
+    "zh": "科科斯群岛",
+    "en": "Cocos (Keeling) Islands",
+    "lat": -12.17,
+    "lon": 96.83,
+    "subregion": "澳新",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/cc.png"
+  },
+  "FJ": {
+    "zh": "斐济",
+    "en": "Fiji",
+    "lat": -17.7,
+    "lon": 178,
+    "subregion": "美拉尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/fj.png"
+  },
+  "NC": {
+    "zh": "新喀里多尼亚",
+    "en": "New Caledonia",
+    "lat": -21.3,
+    "lon": 165.5,
+    "subregion": "美拉尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/nc.png"
+  },
+  "PG": {
+    "zh": "巴布亚新几内亚",
+    "en": "Papua New Guinea",
+    "lat": -6.5,
+    "lon": 145,
+    "subregion": "美拉尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/pg.png"
+  },
+  "SB": {
+    "zh": "所罗门群岛",
+    "en": "Solomon Islands",
+    "lat": -9.6,
+    "lon": 160.2,
+    "subregion": "美拉尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/sb.png"
+  },
+  "VU": {
+    "zh": "瓦努阿图",
+    "en": "Vanuatu",
+    "lat": -16,
+    "lon": 167.5,
+    "subregion": "美拉尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/vu.png"
+  },
+  "FM": {
+    "zh": "密克罗尼西亚联邦",
+    "en": "Micronesia",
+    "lat": 6.9,
+    "lon": 158.2,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/fm.png"
+  },
+  "GU": {
+    "zh": "关岛",
+    "en": "Guam",
+    "lat": 13.45,
+    "lon": 144.78,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/gu.png"
+  },
+  "KI": {
+    "zh": "基里巴斯",
+    "en": "Kiribati",
+    "lat": 1.9,
+    "lon": -157.4,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/ki.png"
+  },
+  "MH": {
+    "zh": "马绍尔群岛",
+    "en": "Marshall Islands",
+    "lat": 7.1,
+    "lon": 171.2,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/mh.png"
+  },
+  "MP": {
+    "zh": "北马里亚纳群岛",
+    "en": "Northern Mariana Islands",
+    "lat": 15.2,
+    "lon": 145.7,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/mp.png"
+  },
+  "NR": {
+    "zh": "瑙鲁",
+    "en": "Nauru",
+    "lat": -0.52,
+    "lon": 166.93,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/nr.png"
+  },
+  "PW": {
+    "zh": "帕劳",
+    "en": "Palau",
+    "lat": 7.5,
+    "lon": 134.6,
+    "subregion": "密克罗尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/pw.png"
+  },
+  "CK": {
+    "zh": "库克群岛",
+    "en": "Cook Islands",
+    "lat": -21.2,
+    "lon": -159.8,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/ck.png"
+  },
+  "PF": {
+    "zh": "法属波利尼西亚",
+    "en": "French Polynesia",
+    "lat": -17.7,
+    "lon": -149.4,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/pf.png"
+  },
+  "NU": {
+    "zh": "纽埃",
+    "en": "Niue",
+    "lat": -19.05,
+    "lon": -169.87,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/nu.png"
+  },
+  "PN": {
+    "zh": "皮特凯恩群岛",
+    "en": "Pitcairn Islands",
+    "lat": -24.4,
+    "lon": -128.3,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/pn.png"
+  },
+  "TK": {
+    "zh": "托克劳",
+    "en": "Tokelau",
+    "lat": -9.2,
+    "lon": -171.8,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/tk.png"
+  },
+  "TO": {
+    "zh": "汤加",
+    "en": "Tonga",
+    "lat": -21.2,
+    "lon": -175.2,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/to.png"
+  },
+  "TV": {
+    "zh": "图瓦卢",
+    "en": "Tuvalu",
+    "lat": -7.5,
+    "lon": 178,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/tv.png"
+  },
+  "WS": {
+    "zh": "萨摩亚",
+    "en": "Samoa",
+    "lat": -13.8,
+    "lon": -172.1,
+    "subregion": "波利尼西亚",
+    "continent": "大洋洲",
+    "flag": "https://flagcdn.com/w320/ws.png"
+  },
+  "CA": {
+    "zh": "加拿大",
+    "en": "Canada",
+    "lat": 56.1,
+    "lon": -106.3,
+    "subregion": "",
+    "continent": "北美洲",
+    "flag": "https://flagcdn.com/w320/ca.png"
+  },
+  "GL": {
+    "zh": "格陵兰",
+    "en": "Greenland",
+    "lat": 71.7,
+    "lon": -42.6,
+    "subregion": "",
+    "continent": "北美洲",
+    "flag": "https://flagcdn.com/w320/gl.png"
+  },
+  "BM": {
+    "zh": "百慕大",
+    "en": "Bermuda",
+    "lat": 32.3,
+    "lon": -64.75,
+    "subregion": "",
+    "continent": "北美洲",
+    "flag": "https://flagcdn.com/w320/bm.png"
+  },
+  "PM": {
+    "zh": "圣皮埃尔和密克隆",
+    "en": "Saint Pierre and Miquelon",
+    "lat": 46.9,
+    "lon": -56.3,
+    "subregion": "",
+    "continent": "北美洲",
+    "flag": "https://flagcdn.com/w320/pm.png"
   }
 };
 
@@ -2422,6 +4303,16 @@ const REGIONS = {
     "label": "北美洲",
     "color": "#b8569e",
     "bg": "rgba(184, 86, 158, 0.15)"
+  },
+  "中美洲": {
+    "label": "中美洲",
+    "color": "#c86fa0",
+    "bg": "rgba(200, 111, 160, 0.15)"
+  },
+  "加勒比": {
+    "label": "加勒比",
+    "color": "#c060a0",
+    "bg": "rgba(192, 96, 160, 0.15)"
   },
   "南美": {
     "label": "南美",

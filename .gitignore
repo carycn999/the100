@@ -1,6 +1,9 @@
 # Claude config (session data, not project code)
 .claude/
 
+# Cloudflare Wrangler local cache
+.wrangler/
+
 # OS files
 .DS_Store
 Thumbs.db
