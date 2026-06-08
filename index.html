@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE 100 · 影响人类历史进程的100名人</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+<script src="data.js"></script>
+<script src="content.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+#header {
+  flex: 0 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(90deg, #161b22 0%, #1a2035 100%);
+  border-bottom: 1px solid #30363d;
+  z-index: 10;
+}
+#header h1 { font-size: 16px; font-weight: 600; letter-spacing: 2px; color: #f0d080; }
+#header .subtitle { font-size: 11px; color: #8b949e; margin-left: 12px; }
+.legend { display: flex; gap: 10px; align-items: center; }
+.legend-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: #8b949e; cursor: pointer; transition: color .2s;
+}
+.legend-item:hover { color: #e6edf3; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+/* ── Map ── */
+#map-container {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+#map-svg { width: 100%; height: 100%; display: block; }
+
+.country { fill: #1e2840; stroke: #2d3a52; stroke-width: 0.4; }
+.graticule { fill: none; stroke: #1a2235; stroke-width: 0.3; }
+.sphere { fill: #0a1628; }
+.person-dot { cursor: pointer; transition: opacity .2s; }
+.person-dot:hover { opacity: 1 !important; }
+.person-label { font-size: 7px; pointer-events: none; fill: #0d1117; font-weight: 700;
+  text-anchor: middle; dominant-baseline: middle; }
+
+/* Map fit buttons */
+#map-fit-btns {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  display: flex; gap: 4px;
+  z-index: 20;
+}
+.fit-btn {
+  background: #161b22cc;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  color: #8b949e;
+  font-size: 10px;
+  padding: 4px 8px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background .15s, color .15s, border-color .15s;
+  font-family: inherit;
+}
+.fit-btn:hover { background: #21262d; color: #e6edf3; }
+.fit-btn.active { background: #1f3a5f; border-color: #4a90d9; color: #79c0ff; }
+
+/* ── Timeline ── */
+#timeline {
+  flex: 0 0 auto;
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: height .3s ease;
+}
+#tl-controls {
+  flex: 0 0 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-bottom: 1px solid #21262d;
+  background: #161b22;
+}
+#era-buttons { display: flex; gap: 3px; }
+.era-btn {
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  color: #6e7681;
+  font-size: 10px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s, color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.era-btn:hover { background: #21262d; color: #cdd9e5; }
+.era-btn.active { background: #1f3a5f; border-color: #4a90d9; color: #79c0ff; }
+
+#yr-range {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #8b949e;
+}
+#yr-range input {
+  width: 60px; padding: 2px 5px;
+  background: #0d1117; border: 1px solid #30363d;
+  border-radius: 4px; color: #cdd9e5; font-size: 10px;
+  font-family: inherit;
+}
+#yr-range input:focus { outline: none; border-color: #4a90d9; }
+#yr-apply {
+  background: #1f3a5f; border: 1px solid #4a90d9;
+  border-radius: 4px; color: #79c0ff; font-size: 10px;
+  padding: 2px 7px; cursor: pointer; font-family: inherit;
+}
+#yr-apply:hover { background: #2d4e7f; }
+
+#tl-mode-info {
+  margin-left: auto;
+  font-size: 9px;
+  color: #3d4d60;
+}
+
+#tl-svg-wrap {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+#tl-svg-wrap::-webkit-scrollbar { width: 4px; }
+#tl-svg-wrap::-webkit-scrollbar-track { background: transparent; }
+#tl-svg-wrap::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+#timeline-svg { display: block; width: 100%; }
+
+.tl-dot { cursor: pointer; }
+.tl-dot:hover { opacity: 1 !important; }
+.tl-bar { cursor: pointer; rx: 2; }
+.tl-bar:hover { opacity: 1 !important; }
+
+/* ── Detail Panel ── */
+#detail-panel {
+  position: fixed;
+  top: 48px; right: -420px; width: 400px; bottom: 0;
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  display: flex; flex-direction: column;
+  transition: right .35s cubic-bezier(.4,0,.2,1);
+  z-index: 100;
+  box-shadow: -8px 0 32px rgba(0,0,0,.5);
+}
+#detail-panel.open { right: 0; }
+#detail-header { padding: 20px 20px 12px; border-bottom: 1px solid #30363d; flex: 0 0 auto; }
+#detail-rank { font-size: 11px; color: #f0d080; letter-spacing: 1px; margin-bottom: 4px; }
+#detail-name-zh { font-size: 22px; font-weight: 700; }
+#detail-name-en { font-size: 14px; color: #8b949e; margin-top: 2px; }
+#detail-dates   { font-size: 12px; color: #8b949e; margin-top: 6px; }
+#detail-region  { display: inline-block; margin-top: 8px; padding: 2px 10px;
+  border-radius: 12px; font-size: 11px; font-weight: 500; }
+#detail-body {
+  flex: 1 1 auto; overflow-y: auto; padding: 16px 20px; scroll-behavior: smooth;
+}
+#detail-body::-webkit-scrollbar { width: 4px; }
+#detail-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+.para-block { margin-bottom: 16px; }
+.para-en { font-size: 12px; line-height: 1.7; color: #8b949e; }
+.para-zh { font-size: 13px; line-height: 1.8; color: #cdd9e5; margin-top: 6px; }
+.para-divider { border: none; border-top: 1px solid #21262d; margin: 12px 0; }
+#detail-links { padding: 12px 20px; border-top: 1px solid #30363d; flex: 0 0 auto; }
+#detail-links a {
+  display: inline-block; margin-right: 8px; margin-bottom: 4px;
+  padding: 4px 10px; background: #1e2840; border: 1px solid #30363d;
+  border-radius: 6px; color: #79c0ff; font-size: 11px; text-decoration: none;
+  transition: background .15s;
+}
+#detail-links a:hover { background: #2d3a52; }
+#close-btn {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: none; color: #8b949e; cursor: pointer;
+  font-size: 18px; line-height: 1; padding: 4px 6px; border-radius: 4px;
+}
+#close-btn:hover { background: #21262d; color: #e6edf3; }
+
+/* ── Tooltip ── */
+#tooltip {
+  position: fixed;
+  background: #1e2840ee; border: 1px solid #30363d; border-radius: 8px;
+  padding: 8px 12px; pointer-events: none; font-size: 12px; line-height: 1.5;
+  z-index: 200; display: none; max-width: 200px;
+}
+#tooltip .tt-rank { color: #f0d080; font-size: 10px; }
+#tooltip .tt-zh   { font-size: 14px; font-weight: 600; }
+#tooltip .tt-en   { color: #8b949e; font-size: 11px; }
+#tooltip .tt-date { color: #8b949e; font-size: 10px; }
+
+/* ── Map filter overlay ── */
+#map-filters {
+  position: absolute;
+  top: 10px; left: 10px;
+  display: flex; flex-direction: column; gap: 4px;
+  z-index: 20;
+}
+.filter-row { display: flex; gap: 3px; align-items: center; }
+.filter-label { font-size: 9px; color: #4a5570; min-width: 24px; }
+.filter-btn {
+  background: #161b22cc; border: 1px solid #2d3a52;
+  border-radius: 4px; color: #6e7681; font-size: 10px;
+  padding: 3px 8px; cursor: pointer; font-family: inherit;
+  backdrop-filter: blur(4px);
+  transition: background .15s, color .15s, border-color .15s;
+}
+.filter-btn:hover { background: #21262d; color: #cdd9e5; }
+.filter-btn.active { background: rgba(79,139,224,0.2); border-color: #4a90d9; color: #79c0ff; }
+.filter-btn[data-value="Nature"].active  { background: rgba(82,168,224,0.2); border-color: #52a8e0; color: #52a8e0; }
+.filter-btn[data-value="Spirit"].active  { background: rgba(224,168,64,0.2);  border-color: #e0a840; color: #e0a840; }
+.filter-btn[data-value="Society"].active { background: rgba(224,82,112,0.2);  border-color: #e05270; color: #e05270; }
+
+/* ── Detail portrait ── */
+#detail-portrait {
+  width: 64px; height: 64px; border-radius: 8px; overflow: hidden;
+  flex: 0 0 64px; background: #0d1117;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #30363d;
+}
+#detail-portrait img { width: 100%; height: 100%; object-fit: cover; }
+#detail-portrait .avatar-fallback {
+  font-size: 22px; font-weight: 700; color: #fff; opacity: 0.7;
+}
+#detail-header-top {
+  display: flex; gap: 14px; align-items: flex-start;
+}
+#detail-header-text { flex: 1 1 auto; min-width: 0; }
+
+/* ── Tag pills ── */
+.tag-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.tag-pill {
+  padding: 2px 8px; border-radius: 10px; font-size: 10px;
+  background: #1e2840; border: 1px solid #30363d; color: #8b949e;
+}
+.tag-pill.domain-Nature  { border-color: #52a8e044; color: #52a8e0; background: rgba(82,168,224,0.08); }
+.tag-pill.domain-Spirit  { border-color: #e0a84044; color: #e0a840; background: rgba(224,168,64,0.08); }
+.tag-pill.domain-Society { border-color: #e0527044; color: #e05270; background: rgba(224,82,112,0.08); }
+
+/* ── Loading ── */
+#loading {
+  position: fixed; inset: 0; background: #0d1117;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px; z-index: 999;
+  font-size: 14px; color: #8b949e;
+}
+.spinner {
+  width: 32px; height: 32px; border: 3px solid #30363d;
+  border-top-color: #f0d080; border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><span>载入地图中…</span></div>
+
+<div id="header">
+  <div style="display:flex;align-items:baseline;gap:8px">
+    <h1>THE 100</h1>
+    <span class="subtitle">影响人类历史进程的100名人排行榜</span>
+  </div>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div id="map-container">
+  <svg id="map-svg"></svg>
+
+  <!-- Domain filter overlay -->
+  <div id="map-filters">
+    <div class="filter-row">
+      <span class="filter-label">领域</span>
+      <button class="filter-btn active" data-filter="domain" data-value="all">全部</button>
+      <button class="filter-btn" data-filter="domain" data-value="Nature">自然·科学</button>
+      <button class="filter-btn" data-filter="domain" data-value="Spirit">思想·文化</button>
+      <button class="filter-btn" data-filter="domain" data-value="Society">政治·社会</button>
+    </div>
+  </div>
+
+  <div id="map-fit-btns">
+    <button class="fit-btn active" data-mode="auto" title="自适应（保持全图）">自适应</button>
+    <button class="fit-btn" data-mode="width" title="横向铺满">横向</button>
+    <button class="fit-btn" data-mode="height" title="纵向铺满">纵向</button>
+  </div>
+</div>
+
+<div id="timeline">
+  <div id="tl-controls">
+    <div id="era-buttons">
+      <button class="era-btn active" data-era="all">全部</button>
+      <button class="era-btn" data-era="ancient">上古</button>
+      <button class="era-btn" data-era="classical">古典</button>
+      <button class="era-btn" data-era="medieval">中世纪</button>
+      <button class="era-btn" data-era="earlymod">近代</button>
+      <button class="era-btn" data-era="modern">现代</button>
+    </div>
+    <div id="yr-range">
+      <input type="number" id="yr-start" step="10">
+      <span style="color:#3d4d60">—</span>
+      <input type="number" id="yr-end" step="10">
+      <button id="yr-apply">确定</button>
+    </div>
+    <span id="tl-mode-info"></span>
+  </div>
+  <div id="tl-svg-wrap">
+    <svg id="timeline-svg"></svg>
+  </div>
+</div>
+
+<div id="detail-panel">
+  <button id="close-btn">✕</button>
+  <div id="detail-header">
+    <div id="detail-header-top">
+      <div id="detail-portrait"><span class="avatar-fallback" id="detail-avatar"></span></div>
+      <div id="detail-header-text">
+        <div id="detail-rank"></div>
+        <div id="detail-name-zh"></div>
+        <div id="detail-name-en"></div>
+        <div id="detail-dates"></div>
+      </div>
+    </div>
+    <div id="detail-tags" class="tag-pills" style="margin-top:10px"></div>
+  </div>
+  <div id="detail-body"></div>
+  <div id="detail-links"></div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════
+
+const ERA_DEFS = {
+  all:      { start: -3200, end: 2030, label: '全部',   fineTune: false },
+  ancient:  { start: -3200, end: -500, label: '上古',   fineTune: false },
+  classical:{ start: -500,  end: 500,  label: '古典',   fineTune: false },
+  medieval: { start: 500,   end: 1400, label: '中世纪', fineTune: true  },
+  earlymod: { start: 1400,  end: 1800, label: '近代',   fineTune: true  },
+  modern:   { start: 1800,  end: 2030, label: '现代',   fineTune: true  },
+};
+
+// Range threshold: <= this many years → lifeline mode
+const LIFELINE_THRESHOLD = 600;
+
+// Timeline heights
+const TL_HEIGHT_DOT = 100;      // px for dots
+const TL_ROW_H = 22;            // px per row in lifeline mode
+const TL_AXIS_H = 30;           // px for axis area
+const TL_MAX_H = 280;           // max px before scrolling
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+
+let worldData = null;
+let projection = null;
+let geoPath = null;
+let mapSvg = null;
+let fitMode = 'auto';
+let activeRank = null;
+
+const tlState = { start: -3200, end: 2030, era: 'all' };
+
+// ═══════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════
+
+function formatYear(y) {
+  return y < 0 ? `前 ${Math.abs(y)} 年` : `${y} 年`;
+}
+function yearLabel(p) {
+  return `${formatYear(p.birth)} — ${formatYear(p.death)}`;
+}
+function dotR(d) {
+  if (d.rank <= 5)  return 9;
+  if (d.rank <= 20) return 7;
+  if (d.rank <= 50) return 5.5;
+  return 4.5;
+}
+
+// ═══════════════════════════════════════════════════════════
+// TOOLTIP
+// ═══════════════════════════════════════════════════════════
+
+const tooltip = document.getElementById('tooltip');
+
+function showTooltip(evt, d) {
+  const reg = REGIONS[d.region];
+  const roleZh = (ROLE_LABELS && d.role) ? (ROLE_LABELS[d.role] || d.role) : '';
+  const domainInfo = (DOMAIN_LABELS && d.domain) ? DOMAIN_LABELS[d.domain] : null;
+  tooltip.innerHTML = `
+    <div class="tt-rank">排名 #${d.rank}</div>
+    <div class="tt-zh">${d.zh}</div>
+    <div class="tt-en">${d.en}</div>
+    <div class="tt-date">${yearLabel(d)}</div>
+    <div style="margin-top:4px;display:flex;gap:6px;align-items:center">
+      <span style="font-size:10px;color:${reg.color}">${reg.label}</span>
+      ${domainInfo ? `<span style="font-size:10px;color:${domainInfo.color}">${roleZh}</span>` : ''}
+    </div>`;
+  tooltip.style.display = 'block';
+  moveTip(evt);
+}
+function moveTip(evt) {
+  const x = evt.clientX, y = evt.clientY, tw = 200;
+  tooltip.style.left = (x + 14 + tw > window.innerWidth ? x - tw - 8 : x + 14) + 'px';
+  tooltip.style.top  = (y - 20 < 0 ? y + 8 : y - 20) + 'px';
+}
+function hideTip() { tooltip.style.display = 'none'; }
+
+// ═══════════════════════════════════════════════════════════
+// ACTIVE / DETAIL
+// ═══════════════════════════════════════════════════════════
+
+function setActive(rank) {
+  activeRank = rank;
+  d3.selectAll('.person-dot')
+    .attr('opacity', d => rank ? (d.rank === rank ? 1 : 0.25) : 0.85)
+    .attr('r', d => d.rank === rank ? dotR(d) * 1.6 : dotR(d));
+  d3.selectAll('.tl-dot,.tl-bar')
+    .attr('opacity', d => rank ? (d.rank === rank ? 1 : 0.15) : 0.9);
+}
+
+async function openDetail(p) {
+  setActive(p.rank);
+  const reg = REGIONS[p.region];
+
+  // Portrait
+  const portrait = document.getElementById('detail-portrait');
+  const avatar   = document.getElementById('detail-avatar');
+  if (p.img) {
+    portrait.innerHTML = `<img src="${p.img}" alt="${p.zh}" onerror="this.parentNode.innerHTML='<span class=avatar-fallback>${p.zh[0]}</span>'">`;
+  } else {
+    portrait.innerHTML = `<span class="avatar-fallback" style="background:${reg.color}22;color:${reg.color};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700">${p.zh[0]}</span>`;
+  }
+
+  document.getElementById('detail-rank').textContent = `# ${p.rank}`;
+  document.getElementById('detail-name-zh').textContent = p.zh;
+  document.getElementById('detail-name-en').textContent = p.en;
+  document.getElementById('detail-dates').textContent = yearLabel(p);
+
+  // Tag pills (region + domain + role + countries)
+  const tagsEl = document.getElementById('detail-tags');
+  const domainInfo = (DOMAIN_LABELS && p.domain) ? DOMAIN_LABELS[p.domain] : null;
+  const roleZh = (ROLE_LABELS && p.role) ? (ROLE_LABELS[p.role] || p.role) : '';
+  const countryNames = (p.countries || []).map(c => {
+    const rEntry = Object.values(REGIONS).find((_, i) => false); // not needed
+    return c; // just show ISO code, actual names are in _people region strings
+  });
+  tagsEl.innerHTML = [
+    `<span class="tag-pill" style="background:${reg.bg};color:${reg.color};border-color:${reg.color}44">${reg.label}</span>`,
+    domainInfo ? `<span class="tag-pill domain-${p.domain}">${domainInfo.label}</span>` : '',
+    roleZh    ? `<span class="tag-pill domain-${p.domain}">${roleZh}</span>` : '',
+    ...(p.countries || []).map(c => `<span class="tag-pill" style="font-size:9px">${c}</span>`),
+  ].filter(Boolean).join('');
+  const body = document.getElementById('detail-body');
+  body.innerHTML = '<div style="color:#8b949e;font-size:12px;padding:8px 0">载入中…</div>';
+  document.getElementById('detail-panel').classList.add('open');
+
+  const text = typeof CONTENT !== 'undefined' ? CONTENT[p.rank] : null;
+  const pairs = parseMD(text);
+  if (!pairs || !pairs.length) {
+    body.innerHTML = '<div style="color:#6e7681;font-size:12px">暂无内容</div>';
+  } else {
+    body.innerHTML = pairs.map((pair, i) => `
+      <div class="para-block">
+        ${i > 0 ? '<hr class="para-divider">' : ''}
+        <div class="para-en">${pair.en}</div>
+        ${pair.zh ? `<div class="para-zh">${pair.zh}</div>` : ''}
+      </div>`).join('');
+  }
+  document.getElementById('detail-links').innerHTML = `
+    <a href="https://docs.suphy.top/file/book/The100ARankingOfTheMostInfluentialPersonsInHistory.pdf" target="_blank">📖 英文 PDF</a>
+    <a href="https://docs.suphy.top/file/book/The100ARankingOfTheMostInfluentialPersonsInHistory_zh.pdf" target="_blank">📖 中文 PDF</a>`;
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('open');
+  setActive(null);
+}
+
+function parseMD(text) {
+  if (!text) return null;
+  // Strip YAML frontmatter if present (defensive)
+  const noFront = text.replace(/^---[\s\S]*?---\n/, '');
+  // Split on --- separators between paragraph groups
+  const parts = noFront.split(/\n---\n/).map(s => s.trim()).filter(Boolean);
+  // Filter out headings (# or ##, some files use single #)
+  const blocks = parts.filter(p => !/^#{1,2}\s/.test(p));
+  // Flatten: split each block on blank lines into individual text segments
+  const segments = [];
+  for (const block of blocks) {
+    const segs = block.split(/\n\n/).map(s => s.trim()).filter(Boolean);
+    for (const s of segs) segments.push(s);
+  }
+  // Classify a segment as primarily Chinese (CJK char count > Latin char count)
+  function isPrimarilyChinese(s) {
+    const cjk = (s.match(/[一-鿿㐀-䶿]/g) || []).length;
+    const lat = (s.match(/[a-zA-Z]/g) || []).length;
+    return cjk > lat;
+  }
+  // Pair by language alternation: EN → ZH → EN → ZH …
+  const pairs = [];
+  let i = 0;
+  while (i < segments.length) {
+    const cur = segments[i];
+    if (!isPrimarilyChinese(cur)) {
+      // English segment — look ahead one for its Chinese counterpart
+      const next = segments[i + 1];
+      if (next && isPrimarilyChinese(next)) {
+        pairs.push({ en: cur, zh: next });
+        i += 2;
+      } else {
+        pairs.push({ en: cur, zh: '' });
+        i += 1;
+      }
+    } else {
+      // Chinese segment — try to attach to previous pair missing ZH
+      if (pairs.length > 0 && !pairs[pairs.length - 1].zh) {
+        pairs[pairs.length - 1].zh = cur;
+      } else {
+        pairs.push({ en: '', zh: cur });
+      }
+      i += 1;
+    }
+  }
+  return pairs.filter(p => p.en || p.zh);
+}
+
+document.getElementById('close-btn').addEventListener('click', closeDetail);
+
+// ═══════════════════════════════════════════════════════════
+// LEGEND
+// ═══════════════════════════════════════════════════════════
+
+const legendEl = document.getElementById('legend');
+Object.entries(REGIONS).forEach(([, reg]) => {
+  const el = document.createElement('div');
+  el.className = 'legend-item';
+  el.innerHTML = `<span class="legend-dot" style="background:${reg.color}"></span>${reg.label}`;
+  legendEl.appendChild(el);
+});
+
+// ═══════════════════════════════════════════════════════════
+// MAP
+// ═══════════════════════════════════════════════════════════
+
+function getMapDims() {
+  const el = document.getElementById('map-svg');
+  return { W: el.clientWidth || window.innerWidth, H: el.clientHeight || 400 };
+}
+
+function computeScale(mode, W, H) {
+  // Natural Earth 1: empirical constants
+  // scale/width ≈ 0.18, scale/height ≈ 0.32
+  if (mode === 'width')  return W * 0.175;
+  if (mode === 'height') return H * 0.318;
+  return Math.min(W * 0.175, H * 0.318);  // auto: fit all
+}
+
+function redrawMap() {
+  if (!worldData || !projection) return;
+  const { W, H } = getMapDims();
+  const scale = computeScale(fitMode, W, H);
+  projection.scale(scale).translate([W / 2, H / 2]);
+  geoPath = d3.geoPath().projection(projection);
+
+  mapSvg.select('.sphere').attr('d', geoPath({ type: 'Sphere' }));
+  mapSvg.select('.graticule').attr('d', geoPath(d3.geoGraticule()()));
+  mapSvg.selectAll('.country').attr('d', geoPath);
+
+  // Reproject persons
+  PERSONS.forEach(d => {
+    const pt = projection([d.birth_lng, d.birth_lat]);
+    d._x = pt ? pt[0] : null;
+    d._y = pt ? pt[1] : null;
+  });
+  mapSvg.selectAll('.person-dot')
+    .attr('cx', d => d._x)
+    .attr('cy', d => d._y)
+    .attr('visibility', d => d._x ? 'visible' : 'hidden');
+  mapSvg.selectAll('.person-label')
+    .attr('x', d => d._x)
+    .attr('y', d => d._y);
+}
+
+async function buildMap() {
+  worldData = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+  const { W, H } = getMapDims();
+  projection = d3.geoNaturalEarth1();
+  geoPath = d3.geoPath().projection(projection);
+  mapSvg = d3.select('#map-svg');
+
+  mapSvg.append('path').attr('class', 'sphere');
+  mapSvg.append('path').attr('class', 'graticule');
+
+  const countries = topojson.feature(worldData, worldData.objects.countries);
+  mapSvg.append('g').selectAll('path')
+    .data(countries.features).join('path').attr('class', 'country');
+
+  const dotsG = mapSvg.append('g').attr('class', 'persons-layer');
+
+  PERSONS.forEach(d => { d._baseOpacity = 0.85; });
+
+  dotsG.selectAll('.person-dot')
+    .data(PERSONS).join('circle')
+    .attr('class', 'person-dot')
+    .attr('r', d => dotR(d))
+    .attr('fill', d => REGIONS[d.region].color)
+    .attr('stroke', '#0d1117').attr('stroke-width', 1.5)
+    .attr('opacity', 0.85)
+    .on('mouseover', (evt, d) => showTooltip(evt, d))
+    .on('mousemove', moveTip)
+    .on('mouseout', hideTip)
+    .on('click', (evt, d) => { evt.stopPropagation(); openDetail(d); });
+
+  dotsG.selectAll('.person-label')
+    .data(PERSONS.filter(d => d.rank <= 10)).join('text')
+    .attr('class', 'person-label')
+    .attr('pointer-events', 'none')
+    .text(d => d.rank);
+
+  mapSvg.on('click', closeDetail);
+
+  redrawMap();
+
+  // Domain filter buttons
+  let activeDomain = 'all';
+  document.querySelectorAll('.filter-btn[data-filter="domain"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeDomain = btn.dataset.value;
+      document.querySelectorAll('.filter-btn[data-filter="domain"]')
+        .forEach(b => b.classList.toggle('active', b === btn));
+      applyDomainFilter(activeDomain);
+    });
+  });
+
+  // Fit buttons
+  document.querySelectorAll('.fit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      fitMode = btn.dataset.mode;
+      document.querySelectorAll('.fit-btn').forEach(b => b.classList.toggle('active', b === btn));
+      redrawMap();
+    });
+  });
+
+  // ResizeObserver
+  new ResizeObserver(() => redrawMap())
+    .observe(document.getElementById('map-container'));
+
+  buildTimeline();
+  document.getElementById('loading').style.display = 'none';
+}
+
+// ── Domain filter ──────────────────────────────────────────
+function applyDomainFilter(domain) {
+  const match = d => domain === 'all' || d.domain === domain;
+  d3.selectAll('.person-dot')
+    .attr('opacity', d => match(d) ? 0.85 : 0.08)
+    .attr('pointer-events', d => match(d) ? 'auto' : 'none');
+  d3.selectAll('.tl-dot,.tl-bar')
+    .attr('opacity', d => match(d) ? 0.9 : 0.06)
+    .attr('pointer-events', d => match(d) ? 'auto' : 'none');
+}
+
+// ═══════════════════════════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════════════════════════
+
+function isLifelineMode(start, end) {
+  return (end - start) <= LIFELINE_THRESHOLD;
+}
+
+// Greedy row assignment for lifeline bars
+function assignRows(persons) {
+  const sorted = [...persons].sort((a, b) => a.birth - b.birth);
+  const rowEnd = [];
+  return sorted.map(p => {
+    let row = rowEnd.findIndex(e => e < p.birth - 3);
+    if (row === -1) { row = rowEnd.length; rowEnd.push(p.death); }
+    else rowEnd[row] = p.death;
+    return { ...p, row };
+  });
+}
+
+function buildTimeline() {
+  // Era buttons
+  document.querySelectorAll('.era-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const era = btn.dataset.era;
+      const def = ERA_DEFS[era];
+      tlState.era = era;
+      tlState.start = def.start;
+      tlState.end = def.end;
+      document.querySelectorAll('.era-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const yr = document.getElementById('yr-range');
+      yr.style.display = def.fineTune ? 'flex' : 'none';
+      if (def.fineTune) {
+        document.getElementById('yr-start').value = def.start;
+        document.getElementById('yr-end').value = def.end;
+      }
+      renderTimeline();
+    });
+  });
+
+  document.getElementById('yr-apply').addEventListener('click', () => {
+    const s = parseInt(document.getElementById('yr-start').value, 10);
+    const e = parseInt(document.getElementById('yr-end').value, 10);
+    if (!isNaN(s) && !isNaN(e) && s < e) {
+      tlState.start = s; tlState.end = e;
+      renderTimeline();
+    }
+  });
+
+  renderTimeline();
+}
+
+function renderTimeline() {
+  const { start, end } = tlState;
+  const lifeline = isLifelineMode(start, end);
+  const inView = PERSONS.filter(p => p.death >= start && p.birth <= end);
+  const wrap = document.getElementById('tl-svg-wrap');
+  const tlEl = document.getElementById('timeline-svg');
+  const W = tlEl.parentElement.clientWidth || window.innerWidth;
+
+  document.getElementById('tl-mode-info').textContent =
+    lifeline ? `生平线视图 · ${inView.length} 人` : `时间点视图 · ${inView.length} 人`;
+
+  if (lifeline) {
+    renderLifeline(inView, start, end, W);
+  } else {
+    renderDots(inView, start, end, W);
+  }
+}
+
+// ── Dot mode ────────────────────────────────────────────────
+function renderDots(persons, start, end, W) {
+  const H = TL_HEIGHT_DOT;
+  const tl = document.getElementById('timeline');
+  tl.style.height = (36 + H) + 'px';
+  const svg = d3.select('#timeline-svg').attr('height', H);
+  svg.selectAll('*').remove();
+
+  const xScale = d3.scaleLinear().domain([start, end]).range([48, W - 20]);
+
+  // Era band backgrounds
+  const eraSegs = [
+    { s: -3200, e: -500,  c: '#251a08', lc: '#6b5020' },
+    { s: -500,  e: 500,   c: '#081420', lc: '#3060a0' },
+    { s: 500,   e: 1400,  c: '#141408', lc: '#606030' },
+    { s: 1400,  e: 1800,  c: '#081414', lc: '#206060' },
+    { s: 1800,  e: 2030,  c: '#081408', lc: '#306030' },
+  ];
+  const eraLabels = ['上古','古典','中世纪','近代','现代'];
+  eraSegs.forEach((seg, i) => {
+    const x1 = Math.max(xScale(seg.s), 48);
+    const x2 = Math.min(xScale(seg.e), W - 20);
+    if (x2 <= x1) return;
+    svg.append('rect').attr('x', x1).attr('y', 0)
+      .attr('width', x2 - x1).attr('height', H).attr('fill', seg.c);
+    svg.append('text')
+      .attr('x', (x1 + x2) / 2).attr('y', 13)
+      .attr('text-anchor', 'middle')
+      .attr('fill', seg.lc)
+      .attr('font-size', '10px')
+      .attr('font-weight', '600')
+      .text(eraLabels[i]);
+    // Separator line
+    if (x1 > 48) {
+      svg.append('line')
+        .attr('x1', x1).attr('y1', 0).attr('x2', x1).attr('y2', H)
+        .attr('stroke', seg.lc).attr('stroke-width', 0.5).attr('opacity', 0.4);
+    }
+  });
+
+  // Axis
+  const axisY = H - 18;
+  svg.append('line')
+    .attr('x1', 48).attr('y1', axisY).attr('x2', W - 20).attr('y2', axisY)
+    .attr('stroke', '#3d4760').attr('stroke-width', 0.6);
+
+  const range = end - start;
+  const tickInterval = range > 4000 ? 1000 : range > 1500 ? 500 : range > 500 ? 200 : 100;
+  const tickStart = Math.ceil(start / tickInterval) * tickInterval;
+  for (let t = tickStart; t <= end; t += tickInterval) {
+    const x = xScale(t);
+    if (x < 52 || x > W - 24) continue;
+    svg.append('line')
+      .attr('x1', x).attr('y1', axisY - 4).attr('x2', x).attr('y2', axisY + 4)
+      .attr('stroke', '#4a5570').attr('stroke-width', 0.8);
+    svg.append('text')
+      .attr('x', x).attr('y', H - 5)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#6a7a90')
+      .attr('font-size', '9px')
+      .text(t < 0 ? `BC${Math.abs(t)}` : t === 0 ? '公元0' : t);
+  }
+
+  // Row stacking
+  const DOT_AREA_H = H - 28;
+  const ROWS = 3;
+  const rowH = DOT_AREA_H / ROWS;
+  const colBuckets = {};
+  const sorted = [...persons].sort((a, b) => a.birth - b.birth);
+  sorted.forEach(d => {
+    const xi = Math.round(xScale(d.birth) / 6);
+    colBuckets[xi] = (colBuckets[xi] || 0);
+    const row = colBuckets[xi] % ROWS;
+    colBuckets[xi]++;
+    d._tlx = xScale(d.birth);
+    d._tly = 16 + row * rowH + rowH / 2;
+  });
+
+  svg.selectAll('.tl-dot').data(sorted).join('circle')
+    .attr('class', 'tl-dot')
+    .attr('cx', d => d._tlx).attr('cy', d => d._tly)
+    .attr('r', 3.5)
+    .attr('fill', d => REGIONS[d.region].color)
+    .attr('opacity', 0.9)
+    .on('mouseover', (evt, d) => showTooltip(evt, d))
+    .on('mousemove', moveTip)
+    .on('mouseout', hideTip)
+    .on('click', (evt, d) => { evt.stopPropagation(); openDetail(d); });
+}
+
+// ── Lifeline mode ────────────────────────────────────────────
+function renderLifeline(persons, start, end, W) {
+  const withRows = assignRows(persons);
+  const numRows = withRows.length ? Math.max(...withRows.map(d => d.row)) + 1 : 0;
+  const svgH = TL_AXIS_H + numRows * TL_ROW_H + 10;
+  const clampH = Math.min(svgH, TL_MAX_H);
+  const tl = document.getElementById('timeline');
+  tl.style.height = (36 + clampH) + 'px';
+
+  d3.select('#timeline-svg').attr('height', svgH);
+  const svg = d3.select('#timeline-svg');
+  svg.selectAll('*').remove();
+
+  const LEFT = 10, RIGHT = 20;
+  const xScale = d3.scaleLinear().domain([start, end]).range([LEFT, W - RIGHT]);
+  const topPad = 6;
+
+  // Background
+  svg.append('rect').attr('x', 0).attr('y', 0)
+    .attr('width', W).attr('height', svgH)
+    .attr('fill', '#0d1117');
+
+  // Axis at top
+  const axisY = topPad + 12;
+  svg.append('line')
+    .attr('x1', LEFT).attr('y1', axisY).attr('x2', W - RIGHT).attr('y2', axisY)
+    .attr('stroke', '#3d4d60').attr('stroke-width', 0.8);
+
+  const range = end - start;
+  const tickInterval = range > 300 ? 100 : range > 100 ? 50 : 25;
+  const tickStart = Math.ceil(start / tickInterval) * tickInterval;
+  for (let t = tickStart; t <= end; t += tickInterval) {
+    const x = xScale(t);
+    if (x < LEFT || x > W - RIGHT) continue;
+    svg.append('line')
+      .attr('x1', x).attr('y1', axisY - 4).attr('x2', x).attr('y2', axisY + 4)
+      .attr('stroke', '#3d4d60').attr('stroke-width', 0.7);
+    // Show fewer labels to avoid crowding
+    const skip = range > 300 ? 2 : 1;
+    if (Math.round((t - tickStart) / tickInterval) % skip === 0) {
+      svg.append('text')
+        .attr('x', x).attr('y', axisY - 7)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#7a8a9e')
+        .attr('font-size', '8.5px')
+        .text(t < 0 ? `BC${Math.abs(t)}` : t);
+    }
+  }
+
+  // Grid lines (faint vertical lines at century marks)
+  for (let t = tickStart; t <= end; t += tickInterval) {
+    const x = xScale(t);
+    svg.append('line')
+      .attr('x1', x).attr('y1', axisY + 5).attr('x2', x).attr('y2', svgH)
+      .attr('stroke', '#1e2840').attr('stroke-width', 0.5);
+  }
+
+  // Lifeline bars
+  const barH = 13;
+  const barGroups = svg.selectAll('.tl-bar-g')
+    .data(withRows).join('g').attr('class', 'tl-bar-g');
+
+  withRows.forEach(d => {
+    const rowY = topPad + TL_AXIS_H + d.row * TL_ROW_H;
+    const barY = rowY + (TL_ROW_H - barH) / 2;
+    const x1 = xScale(Math.max(d.birth, start));
+    const x2 = xScale(Math.min(d.death, end));
+    const barW = Math.max(x2 - x1, 2);
+    const col = REGIONS[d.region].color;
+
+    d._tlx = x1;
+    d._tly = barY + barH / 2;
+    d._barW = barW;
+    d._barY = barY;
+
+    // Row separator (subtle)
+    if (d.row > 0) {
+      svg.append('line')
+        .attr('x1', LEFT).attr('y1', rowY - 1)
+        .attr('x2', W - RIGHT).attr('y2', rowY - 1)
+        .attr('stroke', '#191f2c').attr('stroke-width', 0.6);
+    }
+  });
+
+  // Draw bars
+  svg.selectAll('.tl-bar').data(withRows).join('rect')
+    .attr('class', 'tl-bar')
+    .attr('x', d => d._tlx)
+    .attr('y', d => d._barY)
+    .attr('width', d => d._barW)
+    .attr('height', barH)
+    .attr('rx', 2)
+    .attr('fill', d => REGIONS[d.region].color)
+    .attr('opacity', 0.75)
+    .on('mouseover', (evt, d) => showTooltip(evt, d))
+    .on('mousemove', moveTip)
+    .on('mouseout', hideTip)
+    .on('click', (evt, d) => { evt.stopPropagation(); openDetail(d); });
+
+  // Birth tick marks
+  withRows.forEach(d => {
+    if (d.birth >= start) {
+      const bx = xScale(d.birth);
+      svg.append('line')
+        .attr('x1', bx).attr('y1', d._barY - 1)
+        .attr('x2', bx).attr('y2', d._barY + barH + 1)
+        .attr('stroke', '#fff').attr('stroke-width', 1).attr('opacity', 0.4)
+        .attr('pointer-events', 'none');
+    }
+  });
+
+  // Name labels
+  withRows.forEach(d => {
+    const textX = d._tlx + 4;
+    const textY = d._barY + barH / 2;
+    const availW = d._barW - 6;
+
+    if (d._barW >= 30) {
+      svg.append('text')
+        .attr('x', textX).attr('y', textY)
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#0d1117')
+        .attr('font-size', '9px')
+        .attr('font-weight', '600')
+        .attr('pointer-events', 'none')
+        .attr('clip-path', `inset(0 0 0 0)`)
+        .text(d.zh);
+    } else {
+      // Label outside bar, to the right
+      if (d._tlx + d._barW + 2 < W - RIGHT - 20) {
+        svg.append('text')
+          .attr('x', d._tlx + d._barW + 3)
+          .attr('y', textY)
+          .attr('dominant-baseline', 'middle')
+          .attr('fill', '#8b949e')
+          .attr('font-size', '8.5px')
+          .attr('pointer-events', 'none')
+          .text(d.zh);
+      }
+    }
+  });
+
+  // Rank dots overlay (small rank number on wide bars)
+  withRows.forEach(d => {
+    if (d.rank <= 20 && d._barW >= 18) {
+      svg.append('text')
+        .attr('x', d._tlx + d._barW - 4)
+        .attr('y', d._barY + barH / 2)
+        .attr('dominant-baseline', 'middle')
+        .attr('text-anchor', 'end')
+        .attr('fill', '#0d1117')
+        .attr('font-size', '8px')
+        .attr('opacity', 0.7)
+        .attr('pointer-events', 'none')
+        .text(`#${d.rank}`);
+    }
+  });
+
+  // Sync active state
+  if (activeRank) {
+    d3.selectAll('.tl-bar')
+      .attr('opacity', d => d.rank === activeRank ? 1 : 0.15);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+
+buildMap();
+
+window.addEventListener('resize', () => {
+  clearTimeout(window._resizeTL);
+  window._resizeTL = setTimeout(() => renderTimeline(), 150);
+});
+</script>
+</body>
+</html>
