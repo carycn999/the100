@@ -81,6 +81,16 @@ body {
 }
 .fit-btn:hover { background: #21262d; color: #e6edf3; }
 .fit-btn.active { background: #1f3a5f; border-color: #4a90d9; color: #79c0ff; }
+#map-color-btns {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  display: flex; align-items: center; gap: 4px;
+  z-index: 20;
+}
+#map-color-btns .cmode-label {
+  font-size: 9px; color: #4a5570; margin-right: 2px;
+  letter-spacing: 1px;
+}
 
 /* ── Timeline ── */
 #timeline {
@@ -116,6 +126,9 @@ body {
 }
 .era-btn:hover { background: #21262d; color: #cdd9e5; }
 .era-btn.active { background: #1f3a5f; border-color: #4a90d9; color: #79c0ff; }
+.era-btn.range-start { background: #1f3a5f; border-color: #e0a840; color: #e0a840; }
+.era-btn.range-end   { background: #1f3a5f; border-color: #e0a840; color: #e0a840; }
+.era-btn.range-mid   { background: #1a2535; border-color: #3060a0; color: #8bb4e0; }
 
 #yr-range {
   display: none;
@@ -234,8 +247,8 @@ body {
 .filter-btn:hover { background: #21262d; color: #cdd9e5; }
 .filter-btn.active { background: rgba(79,139,224,0.2); border-color: #4a90d9; color: #79c0ff; }
 .filter-btn[data-value="Nature"].active  { background: rgba(82,168,224,0.2); border-color: #52a8e0; color: #52a8e0; }
-.filter-btn[data-value="Spirit"].active  { background: rgba(224,168,64,0.2);  border-color: #e0a840; color: #e0a840; }
-.filter-btn[data-value="Society"].active { background: rgba(224,82,112,0.2);  border-color: #e05270; color: #e05270; }
+.filter-btn[data-value="Spirit"].active  { background: rgba(154,108,208,0.2); border-color: #9a6cd0; color: #9a6cd0; }
+.filter-btn[data-value="Society"].active { background: rgba(229,130,60,0.2);  border-color: #e5823c; color: #e5823c; }
 
 /* ── Region filter (header right) ── */
 #region-filter { position: relative; display: flex; align-items: center; }
@@ -316,8 +329,8 @@ body {
   background: #1e2840; border: 1px solid #30363d; color: #8b949e;
 }
 .tag-pill.domain-Nature  { border-color: #52a8e044; color: #52a8e0; background: rgba(82,168,224,0.08); }
-.tag-pill.domain-Spirit  { border-color: #e0a84044; color: #e0a840; background: rgba(224,168,64,0.08); }
-.tag-pill.domain-Society { border-color: #e0527044; color: #e05270; background: rgba(224,82,112,0.08); }
+.tag-pill.domain-Spirit  { border-color: #9a6cd044; color: #9a6cd0; background: rgba(154,108,208,0.08); }
+.tag-pill.domain-Society { border-color: #e5823c44; color: #e5823c; background: rgba(229,130,60,0.08); }
 
 /* ── Loading ── */
 #loading {
@@ -370,6 +383,13 @@ body {
     <button class="fit-btn active" data-mode="auto" title="自适应（保持全图）">自适应</button>
     <button class="fit-btn" data-mode="width" title="横向铺满">横向</button>
     <button class="fit-btn" data-mode="height" title="纵向铺满">纵向</button>
+  </div>
+
+  <div id="map-color-btns">
+    <span class="cmode-label">着色</span>
+    <button class="fit-btn active" data-color="region" title="按地区着色">地区</button>
+    <button class="fit-btn" data-color="domain" title="按领域着色">领域</button>
+    <button class="fit-btn" data-color="role" title="按角色着色">角色</button>
   </div>
 </div>
 
@@ -431,7 +451,8 @@ const ERA_DEFS = {
 };
 
 // Range threshold: <= this many years → lifeline mode
-const LIFELINE_THRESHOLD = 600;
+const LIFELINE_THRESHOLD = 600;        // default (single-era)
+const LIFELINE_THRESHOLD_DUAL = 1800;  // dual-era selection
 
 // ═══════════════════════════════════════════════════════════════
 // ISO 3166-1 numeric → alpha-2 (for countries-110m.json)
@@ -500,6 +521,15 @@ function regionColor(sr, ct) {
   return reg ? reg.color : '#4a90d9';
 }
 
+// Person-node coloring for map + timeline. Toggleable between region (default),
+// domain, and role via the #map-color-btns control.
+let colorMode = 'region';            // 'region' | 'domain' | 'role'
+function nodeColor(d) {
+  if (colorMode === 'role')   return ROLE_COLORS[d.role] || '#8b949e';
+  if (colorMode === 'domain') return (DOMAIN_LABELS[d.domain] || {}).color || '#8b949e';
+  return (REGIONS[d.region] || {}).color || '#8b949e';
+}
+
 // ═══════════════════════════════════════════════════════════════
 // REGION FILTER STATE
 // ═══════════════════════════════════════════════════════════════
@@ -534,6 +564,12 @@ let activeDomain = 'all';
 let userZoom = 1, userPanX = 0, userPanY = 0;   // map zoom/pan state
 
 const tlState = { start: -3200, end: 2030, era: 'all' };
+
+// Dual era selection state
+const ERA_ORDER = ['ancient','classical','medieval','earlymod','modern'];
+let eraFirst  = null;  // first clicked era key
+let eraSecond = null;  // second clicked era key (null while single-selected)
+// When both set: chronoStart = earlier in ERA_ORDER, chronoEnd = later in ERA_ORDER
 
 // ═══════════════════════════════════════════════════════════
 // UTILS
@@ -1023,7 +1059,7 @@ async function buildMap() {
     .data(PERSONS).join('circle')
     .attr('class', 'person-dot')
     .attr('r', d => dotR(d))
-    .attr('fill', d => REGIONS[d.region].color)
+    .attr('fill', d => nodeColor(d))
     .attr('stroke', '#0d1117').attr('stroke-width', 1.5)
     .attr('opacity', 0.85)
     .on('mouseover', (evt, d) => showTooltip(evt, d))
@@ -1052,11 +1088,21 @@ async function buildMap() {
   });
 
   // Fit buttons
-  document.querySelectorAll('.fit-btn').forEach(btn => {
+  document.querySelectorAll('#map-fit-btns .fit-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       fitMode = btn.dataset.mode;
-      document.querySelectorAll('.fit-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('#map-fit-btns .fit-btn').forEach(b => b.classList.toggle('active', b === btn));
       resetMapZoom();
+    });
+  });
+
+  // Color-mode buttons (区域 / 领域 / 角色)
+  document.querySelectorAll('#map-color-btns .fit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      colorMode = btn.dataset.color;
+      document.querySelectorAll('#map-color-btns .fit-btn').forEach(b => b.classList.toggle('active', b === btn));
+      mapSvg.selectAll('.person-dot').attr('fill', d => nodeColor(d));
+      renderTimeline();
     });
   });
 
@@ -1082,14 +1128,16 @@ function applyAllFilters() {
     if (!activeSubs) return true; // no region filter active
     return activeSubs.has(d._subregion) || activeSubs.has(d._continent);
   };
+  // Time-range filter: person's lifespan must overlap with current tlState range
+  const timeMatch = d => d.death >= tlState.start && d.birth <= tlState.end;
 
   d3.selectAll('.person-dot')
     .transition().duration(400)
     .attr('opacity', d => {
       if (activeRank && d.rank !== activeRank) return 0.25;
-      return (domainMatch(d) && regionMatch(d)) ? 0.85 : 0.06;
+      return (domainMatch(d) && regionMatch(d) && timeMatch(d)) ? 0.85 : 0.06;
     })
-    .attr('pointer-events', d => (domainMatch(d) && regionMatch(d)) ? 'auto' : 'none');
+    .attr('pointer-events', d => (domainMatch(d) && regionMatch(d) && timeMatch(d)) ? 'auto' : 'none');
   d3.selectAll('.tl-dot,.tl-bar')
     .transition().duration(400)
     .attr('opacity', d => {
@@ -1148,7 +1196,8 @@ function applyRegionEmphasis() {
 // ═══════════════════════════════════════════════════════════
 
 function isLifelineMode(start, end) {
-  return (end - start) <= LIFELINE_THRESHOLD;
+  const threshold = (eraFirst && eraSecond) ? LIFELINE_THRESHOLD_DUAL : LIFELINE_THRESHOLD;
+  return (end - start) <= threshold;
 }
 
 // Greedy row assignment for lifeline bars
@@ -1164,22 +1213,63 @@ function assignRows(persons) {
 }
 
 function buildTimeline() {
-  // Era buttons
+  // Era buttons — dual-selection aware
   document.querySelectorAll('.era-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const era = btn.dataset.era;
-      const def = ERA_DEFS[era];
-      tlState.era = era;
-      tlState.start = def.start;
-      tlState.end = def.end;
-      document.querySelectorAll('.era-btn').forEach(b => b.classList.toggle('active', b === btn));
-      const yr = document.getElementById('yr-range');
-      yr.style.display = def.fineTune ? 'flex' : 'none';
-      if (def.fineTune) {
-        document.getElementById('yr-start').value = def.start;
-        document.getElementById('yr-end').value = def.end;
+
+      if (era === 'all') {
+        // Reset to full range
+        eraFirst = null;
+        eraSecond = null;
+        tlState.era = 'all';
+        tlState.start = ERA_DEFS.all.start;
+        tlState.end = ERA_DEFS.all.end;
+      } else if (eraFirst === null) {
+        // First selection → single era
+        eraFirst = era;
+        eraSecond = null;
+        tlState.era = era;
+        tlState.start = ERA_DEFS[era].start;
+        tlState.end = ERA_DEFS[era].end;
+      } else if (eraSecond === null && era !== eraFirst) {
+        // Second selection → form range (chronological order, not click order)
+        eraSecond = era;
+        const i1 = ERA_ORDER.indexOf(eraFirst);
+        const i2 = ERA_ORDER.indexOf(eraSecond);
+        const lo = Math.min(i1, i2);  // earlier in time = start
+        const hi = Math.max(i1, i2);  // later in time = end
+        tlState.era = 'custom';
+        tlState.start = ERA_DEFS[ERA_ORDER[lo]].start;
+        tlState.end   = ERA_DEFS[ERA_ORDER[hi]].end;
+      } else {
+        // Third click → restart single selection
+        eraFirst = era;
+        eraSecond = null;
+        tlState.era = era;
+        tlState.start = ERA_DEFS[era].start;
+        tlState.end = ERA_DEFS[era].end;
       }
+
+      // Fine-tune year inputs: show only for single-era with fineTune
+      const yr = document.getElementById('yr-range');
+      const isDual = !!(eraFirst && eraSecond);
+      if (isDual) {
+        yr.style.display = 'none';
+      } else if (era !== 'all') {
+        const def = ERA_DEFS[era];
+        yr.style.display = def.fineTune ? 'flex' : 'none';
+        if (def.fineTune) {
+          document.getElementById('yr-start').value = tlState.start;
+          document.getElementById('yr-end').value = tlState.end;
+        }
+      } else {
+        yr.style.display = 'none';
+      }
+
+      updateEraButtons();
       renderTimeline();
+      applyAllFilters();
     });
   });
 
@@ -1188,9 +1278,40 @@ function buildTimeline() {
     const e = parseInt(document.getElementById('yr-end').value, 10);
     if (!isNaN(s) && !isNaN(e) && s < e) {
       tlState.start = s; tlState.end = e;
+      // Using fine-tune clears dual selection
+      eraFirst = null; eraSecond = null;
+      updateEraButtons();
       renderTimeline();
     }
   });
+
+  // ── Update era button visual states ─────────────────────────
+  function updateEraButtons() {
+    const isDual = !!(eraFirst && eraSecond);
+    const chronoStart = isDual ? ERA_ORDER[Math.min(ERA_ORDER.indexOf(eraFirst), ERA_ORDER.indexOf(eraSecond))] : null;
+    const chronoEnd   = isDual ? ERA_ORDER[Math.max(ERA_ORDER.indexOf(eraFirst), ERA_ORDER.indexOf(eraSecond))] : null;
+    const singleEra = (!isDual && eraFirst) ? eraFirst : null;
+
+    document.querySelectorAll('.era-btn').forEach(b => {
+      const e = b.dataset.era;
+      b.classList.remove('active', 'range-start', 'range-end', 'range-mid');
+
+      if (e === 'all') {
+        // "全部" active only when nothing selected
+        b.classList.toggle('active', !eraFirst);
+      } else if (isDual) {
+        if (e === chronoStart) {
+          b.classList.add('range-start');
+        } else if (e === chronoEnd) {
+          b.classList.add('range-end');
+        } else if (ERA_ORDER.indexOf(e) > ERA_ORDER.indexOf(chronoStart) && ERA_ORDER.indexOf(e) < ERA_ORDER.indexOf(chronoEnd)) {
+          b.classList.add('range-mid');
+        }
+      } else if (e === singleEra) {
+        b.classList.add('active');
+      }
+    });
+  }
 
   renderTimeline();
 }
@@ -1295,7 +1416,7 @@ function renderDots(persons, start, end, W) {
     .attr('class', 'tl-dot')
     .attr('cx', d => d._tlx).attr('cy', d => d._tly)
     .attr('r', 3.5)
-    .attr('fill', d => REGIONS[d.region].color)
+    .attr('fill', d => nodeColor(d))
     .attr('opacity', 0.9)
     .on('mouseover', (evt, d) => showTooltip(evt, d))
     .on('mousemove', moveTip)
@@ -1395,7 +1516,7 @@ function renderLifeline(persons, start, end, W) {
     .attr('width', d => d._barW)
     .attr('height', barH)
     .attr('rx', 2)
-    .attr('fill', d => REGIONS[d.region].color)
+    .attr('fill', d => nodeColor(d))
     .attr('opacity', 0.75)
     .on('mouseover', (evt, d) => showTooltip(evt, d))
     .on('mousemove', moveTip)
