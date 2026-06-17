@@ -521,6 +521,17 @@ function regionColor(sr, ct) {
   return reg ? reg.color : '#4a90d9';
 }
 
+// Mix a hex color toward white (positive amount) or black (negative) to
+// brighten/darken it. amount in roughly [-1, 1].
+function lightenColor(hex, amount) {
+  const c = hex.replace('#', '');
+  const n = parseInt(c.length === 3 ? c.split('').map(x => x + x).join('') : c, 16);
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  const clamp = v => Math.max(0, Math.min(255, Math.round(v)));
+  const mix = v => clamp(amount >= 0 ? v + (255 - v) * amount : v * (1 + amount));
+  return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`;
+}
+
 // Person-node coloring for map + timeline. Toggleable between region (default),
 // domain, and role via the #map-color-btns control.
 let colorMode = 'region';            // 'region' | 'domain' | 'role'
@@ -1033,9 +1044,19 @@ async function buildMap() {
 
   // Resolve each polygon's region from the (now complete) COUNTRIES table.
   // Unknown countries stay untagged so they are never wrongly highlighted.
+  // Disputed territories have no ISO numeric id in world-atlas, so they can
+  // only be matched by polygon name. Tag them like their surrounding region.
+  const NAME_REGION = {
+    'Kosovo':     { sr: '南欧', ct: '欧洲' },
+    'N. Cyprus':  { sr: '西亚', ct: '亚洲' },
+    'Somaliland': { sr: '东非', ct: '非洲' },
+  };
+
   function countryRegion(d) {
-    const c = COUNTRIES[ISO_NUM_TO_A2[String(d.id)] || ''];
-    if (!c) return { sr: '', ct: '' };
+    // world-atlas ids are zero-padded 3-digit strings ("040", "008"); the
+    // ISO_NUM_TO_A2 keys are unpadded ("40", "8"). Normalize before lookup.
+    const c = COUNTRIES[ISO_NUM_TO_A2[String(parseInt(d.id, 10))] || ''];
+    if (!c) return NAME_REGION[d.properties && d.properties.name] || { sr: '', ct: '' };
     return { sr: c.subregion || '', ct: c.continent || SUB_TO_CONT[c.subregion] || '' };
   }
 
@@ -1162,27 +1183,29 @@ function applyRegionEmphasis() {
   const activeSubs = activeSubregions();
   const sel = d3.selectAll('.country').transition().duration(600);
 
+  // NOTE: the `.country` CSS rule sets fill/stroke, which override SVG
+  // presentation attributes — so these must be applied as inline styles
+  // (via .style) to take effect, not as attributes.
   if (!activeSubs) {
     // No filter: every country back to its normal neutral style.
-    sel.attr('fill', COUNTRY_BASE.fill)
-       .attr('opacity', COUNTRY_BASE.opacity)
-       .attr('stroke', COUNTRY_BASE.stroke)
-       .attr('stroke-width', COUNTRY_BASE.strokeWidth);
+    sel.style('fill', COUNTRY_BASE.fill)
+       .style('opacity', COUNTRY_BASE.opacity)
+       .style('stroke', COUNTRY_BASE.stroke)
+       .style('stroke-width', COUNTRY_BASE.strokeWidth);
   } else {
-    // Selected regions get an elegant fill in their own color family;
-    // everything else simply stays neutral (no harsh fade-out).
-    sel.attr('fill', function() {
+    // Selected regions get an elegant fill in their own region color,
+    // brightened so they read clearly against the darker, un-highlighted
+    // regions; everything else simply stays neutral (no harsh fade-out).
+    sel.style('fill', function() {
         if (!isCountryActive(this, activeSubs)) return COUNTRY_BASE.fill;
-        return regionColor(this.dataset.subregion, this.dataset.continent);
+        return lightenColor(regionColor(this.dataset.subregion, this.dataset.continent), -0.5);
       })
-      .attr('opacity', function() {
-        return isCountryActive(this, activeSubs) ? 0.5 : COUNTRY_BASE.opacity;
-      })
-      .attr('stroke', function() {
+      .style('opacity', COUNTRY_BASE.opacity)
+      .style('stroke', function() {
         if (!isCountryActive(this, activeSubs)) return COUNTRY_BASE.stroke;
         return regionColor(this.dataset.subregion, this.dataset.continent);
       })
-      .attr('stroke-width', function() {
+      .style('stroke-width', function() {
         return isCountryActive(this, activeSubs) ? 0.9 : COUNTRY_BASE.strokeWidth;
       });
   }
